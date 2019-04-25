@@ -1,6 +1,11 @@
 #!/usr/bin/env node
 
-const path = require('path');
+/**
+ * This util function is used to transform html into wxml format.
+ * And it also supports some Vue-flavored attribute, such as v-if, @click,
+ * and so on.
+ */
+
 const fs = require('fs');
 
 if (process.argv.length < 4) {
@@ -44,9 +49,20 @@ function readFile(path, next) {
 function transform(content) {
     return content.replace(/(<\/?)div\b/g, '$1view')
         .replace(/<(ul|ol|li|p|strong|h[1-6])\b/g, '<view class="$1"')
-        .replace(/<\/(ul|ol|li|p|strong|h[1-6])/g, '</view')
-        .replace(/@click/g, 'bindtap')
+        .replace(/<\/(ul|ol|li|p|strong|h[1-6])\b/g, '</view')
+        .replace(/(<\/?)span\b/g, '$1text')
         .replace(/<br\s*>/g, '<view class="br"></view>')
+        .replace(/<img\b([^>]+)\/?>/g, '<image$1/>')
+        .replace(/@click/g, 'bindtap')
+        .replace(/@change/g, 'bindinput')
+        .replace(/v-(if|show)="([^"]+)"/g, 'wx:if="{{ $2 }}"')
+        .replace(/v-(if|show)='([^']+)'/g, 'wx:if="{{ $2 }}"')
+        .replace(/v-else-if="([^"]+)"/g, 'wx:elif="{{ $1 }}"')
+        .replace(/v-else-if='([^']+)'/g, 'wx:elif="{{ $1 }}"')
+        .replace(/\bv-else\b/g, 'wx:else')
+        .replace(/v-model([^=]+)="([^"]+)"/g, 'data-name="$2"')
+        .replace(/\bv-([^=]+)='([^']+)'/g, "data-$1='$2'")
+        .replace(/\bv-([^=]+)="([^"]+)"/g, 'data-$1="$2"')
 }
 
 function usage() {
