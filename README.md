@@ -20,7 +20,7 @@ qsUtil 是 **querystring util** 的简称，主要用来操作 URL 和页面参�
 
 ## getValueAt
 
-`getValueAt(obj, path, defaultValue)` 模仿了 lodash 中 `_.at(obj, [paths])` 的行为。但是这里的 `path` 只支持字符串格式，即每次只能获取一个数值。如果获取不到，可以设置默认值 `defaultValue`。
+`getValueAt(obj, path, defaultValue)` 模仿了 lodash 中 [`_.at(obj, [paths])`](https://lodash.com/docs/4.17.11#at) 的行为。但是这里的 `path` 只支持字符串格式，即每次只能获取一个数值。如果获取不到，可以设置默认值 `defaultValue`。
 
 这个工具解决的问题模式如下：
 
